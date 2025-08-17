@@ -1,0 +1,35 @@
+<h2>Agenda de Contactos</h2>
+<a href="/add">Agregar Contacto</a>
+<table border="1">
+    <thead>
+        <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Celular</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+  </tr>
+
+    </thead>
+<tbody>
+    <% if (contactos.length === 0) { %>
+        <tr>
+        <td colspan="5">No hay contactos disponibles.</td>
+        </tr>
+    <% } %>
+    <% contactos.forEach(c => { %>
+    <tr>
+      <td><%= c.nombres %></td>
+      <td><%= c.apellidos %></td>
+      <td><%= c.celular %></td>
+      <td><%= c.correo %></td>
+      <td>
+        <a href="/edit/<%= c.id %>">Editar</a> |
+        <a href="/delete/<%= c.id %>">Eliminar</a>
+      </td>
+    </tr>
+  <% }) %>
+</tbody>
+  
+  
+</table>
