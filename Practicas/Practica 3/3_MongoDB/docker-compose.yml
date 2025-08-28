@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: .           # <- que el contexto sea la carpeta 3_MongoDB (donde está el Dockerfile)
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "4000:4000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:6
+    volumes:
+      - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  mongodata:

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Usuarios</title>
+  <style>
+    body{font-family:system-ui,Arial;margin:2rem;max-width:900px}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #ddd;padding:.5rem;text-align:left}
+    form{display:inline}
+    input,button{padding:.4rem}
+    .card{border:1px solid #ddd;padding:1rem;border-radius:10px;background:#fafafa;margin-bottom:1rem}
+  </style>
+</head>
+<body>
+  <h1>Usuarios</h1>
+
+  <div class="card">
+    <h3>Agregar usuario</h3>
+    <form method="POST" action="/users">
+      <input name="name" placeholder="Nombre" required>
+      <input name="email" type="email" placeholder="Correo" required>
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+
+  <table>
+    <thead><tr>
+      <th>ID</th><th>Nombre</th><th>Correo</th><th>Fecha</th><th>Acciones</th>
+    </tr></thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.id %></td>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= new Date(u.created_at).toLocaleString('es-BO') %></td>
+          <td>
+            <form method="POST" action="/users/<%= u.id %>/delete" onsubmit="return confirm('¿Eliminar?')">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tareas</title>
+  <style>
+    body{font-family:system-ui,Arial;margin:2rem;max-width:900px}
+    ul{padding-left:1rem}
+    li{margin:.5rem 0}
+    form{display:inline}
+    .top{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+    input,select,button{padding:.4rem}
+  </style>
+</head>
+<body>
+  <h1>Lista de Tareas</h1>
+
+  <div class="top">
+    <a href="/tareas/new">Crear Nueva Tarea</a>
+    <form method="GET" action="/">
+      <input name="titulo" placeholder="Buscar por título">
+      <button type="submit">Buscar</button>
+    </form>
+  </div>
+
+  <ul>
+    <% tareas.forEach(tarea => { %>
+      <li>
+        <strong><%= tarea.titulo %></strong> — <%= tarea.descripcion %>
+        (<%= tarea.estado %>) —
+        <%= new Date(tarea.fecha_creacion).toLocaleString('es-BO') %>
+        · <a href="/tareas/<%= tarea._id %>">Ver</a>
+        · <a href="/tareas/<%= tarea._id %>/edit">Editar</a>
+        <form action="/tareas/<%= tarea._id %>?_method=DELETE" method="POST" style="display:inline">
+          <button type="submit" onclick="return confirm('¿Eliminar tarea?')">Eliminar</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

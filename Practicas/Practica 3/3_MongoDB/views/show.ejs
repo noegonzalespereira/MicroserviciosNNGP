@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle Tarea</title>
+</head>
+<body>
+  <h1>Tarea: <%= tarea.titulo %></h1>
+  <p><strong>Descripción:</strong> <%= tarea.descripcion %></p>
+  <p><strong>Estado:</strong> <%= tarea.estado %></p>
+  <p><strong>Fecha de creación:</strong> <%= new Date(tarea.fecha_creacion).toLocaleString('es-BO') %></p>
+
+  <a href="/">Regresar</a> ·
+  <a href="/tareas/<%= tarea._id %>/edit">Editar</a>
+</body>
+</html>
