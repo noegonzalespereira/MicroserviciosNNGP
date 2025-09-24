@@ -1,5 +1,5 @@
 {
-  "name": "tarea1",
+  "name": "grpc-estudiantes",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "mysql2": "^3.14.3"
+    "@grpc/grpc-js": "^1.14.0",
+    "@grpc/proto-loader": "^0.8.0"
   }
 }
