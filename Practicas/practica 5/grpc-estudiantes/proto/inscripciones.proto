@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package inscripciones;
+
+import "estudiantes.proto";
+import "cursos.proto";
+
+message InscripcionRequest {
+  string ci = 1;
+  string codigo = 2;
+}
+
+message InscripcionResponse {
+  string mensaje = 1;
+}
+
+service InscripcionService {
+  rpc InscribirEstudiante (InscripcionRequest) returns (InscripcionResponse);
+  rpc ListarCursosDeEstudiante (estudiantes.EstudianteRequest) returns (cursos.CursosList);
+  rpc ListarEstudiantesDeCurso (cursos.CursoRequest) returns (estudiantes.EstudiantesList);
+}
