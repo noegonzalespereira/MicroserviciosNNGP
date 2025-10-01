@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Trabajador</title>
+</head>
+<body>
+
+    <h1>Detalles del Trabajador</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Información del Trabajador</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p><strong>Nombre:</strong> <%= trabajador.nombre %> <%= trabajador.apellido %></p>
+                    <p><strong>Cédula de Identidad:</strong> <%= trabajador.cedula_identidad %></p>
+                    <p><strong>Cargo:</strong> <%= trabajador.cargo %></p>
+                    <p><strong>Departamento:</strong> <%= trabajador.departamento %></p>
+                    <p><strong>Fecha de Ingreso:</strong> <%= trabajador.fecha_ingreso.toISOString().split('T')[0] %></p>
+                </td>
+                <td>
+                    <a href="/trabajador/<%= trabajador._id %>/edit">Editar</a> | 
+                    <a href="/trabajador/<%= trabajador._id %>?_method=DELETE" 
+                       onclick="return confirm('¿Estás seguro de que deseas eliminar este trabajador?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/trabajador">Regresar a la lista de trabajadores</a>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Trabajador</title>
+</head>
+<body>
+    <h1>Crear Nuevo Trabajador</h1>
+    <form action="/trabajador" method="POST">
+        <label>Nombre: <input type="text" name="nombre" required></label><br>
+        <label>Apellido: <input type="text" name="apellido" required></label><br>
+        <label>Cédula de Identidad: <input type="text" name="cedula_identidad" required></label><br>
+        <label>Cargo: <input type="text" name="cargo" required></label><br>
+        <label>Departamento: <input type="text" name="departamento" required></label><br>
+        <label>Fecha de Ingreso: <input type="date" name="fecha_ingreso" required></label><br>
+        <button type="submit">Crear</button>
+    </form>
+    <a href="/trabajador">Regresar</a>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Trabajadores</title>
+</head>
+<body>
+
+    <h1>Lista de Trabajadores</h1>
+
+    <a href="/trabajador/new">Crear Nuevo Trabajador</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Departamento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% trabajadores.forEach(function(trabajador) { %>
+                <tr>
+                    <td><%= trabajador.nombre %> <%= trabajador.apellido %></td>
+                    <td><%= trabajador.cargo %></td>
+                    <td><%= trabajador.departamento %></td>
+                    <td>
+                        <a href="/trabajador/<%= trabajador._id %>">Ver</a> | 
+                        <a href="/trabajador/<%= trabajador._id %>/edit">Editar</a> | 
+                        <a href="/trabajador/<%= trabajador._id %>?_method=DELETE" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este trabajador?')">Eliminar</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</body>
+</html>
