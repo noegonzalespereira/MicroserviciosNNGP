@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  compra:
+    build: .
+    container_name: servicio_compras
+    depends_on:
+      - db
+      - rabbitmq
+    environment:
+      PORT: 8080
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: compras_db
+      DB_SSLMODE: disable
+      JWT_SECRET: "supersecret"
+      RABBITMQ_URL: "amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:16
+    container_name: postgres_compras
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: compras_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_compras
+    ports:
+      - "5672:5672"   # conexión de servicios
+      - "15672:15672" # panel web en http://localhost:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  db_data:

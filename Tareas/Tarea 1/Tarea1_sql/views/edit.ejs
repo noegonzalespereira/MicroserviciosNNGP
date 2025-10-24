@@ -1,0 +1,10 @@
+<h2>Editar Contacto</h2>
+<form action="/edit/<%= contacto.id %>" method="POST">
+  <input name="nombres" value="<%= contacto.nombres %>" required><br>
+  <input name="apellidos" value="<%= contacto.apellidos %>" required><br>
+  <input type="date" name="fecha_nacimiento" value="<%= contacto.fecha_nacimiento.toISOString().split('T')[0] %>" required><br>
+  <input name="direccion" value="<%= contacto.direccion %>" required><br>
+  <input name="celular" value="<%= contacto.celular %>" required><br>
+  <input name="correo" value="<%= contacto.correo %>" required><br>
+  <button>Actualizar</button>
+</form>

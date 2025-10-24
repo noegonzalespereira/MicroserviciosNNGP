@@ -1,0 +1,45 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: my-rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+  producer:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    container_name: producer
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      QUEUE_NAME: email_queue
+      PORT: "3000"
+    depends_on:
+      - rabbitmq
+
+  consumer:
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    container_name: consumer
+    restart: always
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      QUEUE_NAME: email_queue
+    depends_on:
+      - rabbitmq
+
+volumes:
+  rabbitmq-data:
