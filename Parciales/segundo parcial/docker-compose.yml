@@ -1,0 +1,94 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: auth-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: logistica
+    ports:
+      - "3320:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -proot --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mongo:
+    image: mongo:6
+    container_name: vehiculos-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'db.runCommand({ ping: 1 })' | mongosh --quiet localhost:27017 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  auth-svc:
+    build:
+      context: ./Autenticacion
+      dockerfile: Dockerfile
+    container_name: auth-svc
+    env_file:
+      - ./Autenticacion/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  vehiculos-svc:
+    build:
+      context: ./Vehiculos
+      dockerfile: Dockerfile
+    container_name: vehiculos-svc
+    env_file:
+      - ./Vehiculos/.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "3001:3001"   # REST + Swagger
+      - "50051:50051" # gRPC
+    restart: unless-stopped
+
+  envios-svc:
+    build:
+      context: ./Envios
+      dockerfile: Dockerfile
+    container_name: envios-svc
+    env_file:
+      - ./Envios/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      vehiculos-svc:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: gateway
+    depends_on:
+      auth-svc:
+        condition: service_started
+      vehiculos-svc:
+        condition: service_started
+      envios-svc:
+        condition: service_started
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  mongo_data:
